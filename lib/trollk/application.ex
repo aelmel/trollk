@@ -6,15 +6,23 @@ defmodule Trollk.Application do
   use Application
 
   def start(_type, _args) do
+    mqtt_client = {Tortoise.Connection, [
+      client_id: "trollk",
+      handler: {Trollk.Mqtt.Handler, []},
+      server: {Tortoise.Transport.Tcp, host: 'opendata.dekart.com', port: 1945},
+      subscriptions: [{"telemetry/transport/+", 0}, {"telemetry/route/+", 0}, {"event/route/+", 0}]
+    ]}
+
     children = [
       # Start the Telemetry supervisor
       TrollkWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Trollk.PubSub},
       # Start the Endpoint (http/https)
-      TrollkWeb.Endpoint
+      TrollkWeb.Endpoint,
       # Start a worker by calling: Trollk.Worker.start_link(arg)
       # {Trollk.Worker, arg}
+      mqtt_client
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
