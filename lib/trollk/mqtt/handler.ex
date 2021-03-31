@@ -16,7 +16,18 @@ defmodule Trollk.Mqtt.Handler do
 
   def handle_message(["telemetry", "transport", track], payload, state) do
     decoded = Jason.decode!(payload)
-    Logger.info("Track #{track} with payload #{inspect(decoded)}")
+    # Logger.debug("Track #{track} with payload #{inspect(decoded)}")
+    {:ok, state}
+  end
+
+  def handle_message(["telemetry", "route", track], payload, state) do
+    decoded = Jason.decode!(payload)
+    # Logger.info("Route #{track} with payload #{inspect(decoded)}")
+    spawn(fn ->
+      route = Map.get(decoded, "route")
+      board_details = Map.delete(decoded, "rtu_id")
+      TrollkWeb.Endpoint.broadcast("route:#{route}", "update", board_details)
+    end)
     {:ok, state}
   end
 

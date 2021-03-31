@@ -40,7 +40,8 @@ defmodule Trollk.MixProject do
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
-      {:tortoise, "~> 0.9.6"}
+      {:tortoise, "~> 0.9.6"},
+      {:csv, "~> 2.4"}
     ]
   end
 

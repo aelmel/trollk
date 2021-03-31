@@ -6,12 +6,18 @@ defmodule Trollk.Application do
   use Application
 
   def start(_type, _args) do
-    mqtt_client = {Tortoise.Connection, [
-      client_id: "trollk",
-      handler: {Trollk.Mqtt.Handler, []},
-      server: {Tortoise.Transport.Tcp, host: 'opendata.dekart.com', port: 1945},
-      subscriptions: [{"telemetry/transport/+", 0}, {"telemetry/route/+", 0}, {"event/route/+", 0}]
-    ]}
+    mqtt_client =
+      {Tortoise.Connection,
+       [
+         client_id: "trollk",
+         handler: {Trollk.Mqtt.Handler, []},
+         server: {Tortoise.Transport.Tcp, host: 'opendata.dekart.com', port: 1945},
+         subscriptions: [
+           {"telemetry/transport/+", 0},
+           {"telemetry/route/+", 0},
+           {"event/route/+", 0}
+         ]
+       ]}
 
     children = [
       # Start the Telemetry supervisor
@@ -22,6 +28,8 @@ defmodule Trollk.Application do
       TrollkWeb.Endpoint,
       # Start a worker by calling: Trollk.Worker.start_link(arg)
       # {Trollk.Worker, arg}
+      {Trollk.Roataway.Routes, []},
+      {Trollk.Roataway.Vehicles, []},
       mqtt_client
     ]
 
