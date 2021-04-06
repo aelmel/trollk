@@ -20,7 +20,7 @@ defmodule Trollk.MixProject do
   def application do
     [
       mod: {Trollk.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -41,7 +41,9 @@ defmodule Trollk.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:tortoise, "~> 0.9.6"},
-      {:csv, "~> 2.4"}
+      {:csv, "~> 2.4"},
+      {:httpoison, "~> 1.8"},
+      {:credo, "~> 1.5"}
     ]
   end
 

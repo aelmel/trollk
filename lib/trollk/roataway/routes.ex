@@ -23,15 +23,16 @@ defmodule Trollk.Roataway.Routes do
           |> Map.put(:route_number, route_number)
           |> Map.put(:route_desc, route_desc)
           |> Map.put(:osm, osm)
+          |> Map.put(:route_id, route_id)
 
-        Map.put(acc, route_id, route_details)
+        Map.put(acc, route_number, route_details)
       end)
 
     {:ok, state}
   end
 
-  def get_details(route_id) do
-    case GenServer.call(__MODULE__, {:get_details, route_id}) do
+  def get_details(route_number) do
+    case GenServer.call(__MODULE__, {:get_details, route_number}) do
       nil ->
         {:error, "No such route"}
 
@@ -40,8 +41,8 @@ defmodule Trollk.Roataway.Routes do
     end
   end
 
-  def handle_call({:get_details, route_id}, _from, state) do
-    route_details = Map.get(state, route_id)
+  def handle_call({:get_details, route_number}, _from, state) do
+    route_details = Map.get(state, route_number)
     {:reply, route_details, state}
   end
 end

@@ -7,6 +7,8 @@ defmodule TrollkWeb.Router do
 
   scope "/api", TrollkWeb do
     pipe_through :api
+
+    get "/details/route/:route", RoutesController, :get_route_details
   end
 
   # Enables LiveDashboard only for development
