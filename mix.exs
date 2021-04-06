@@ -42,7 +42,8 @@ defmodule Trollk.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:tortoise, "~> 0.9.6"},
       {:csv, "~> 2.4"},
-      {:httpoison, "~> 1.8"}
+      {:httpoison, "~> 1.8"},
+      {:credo, "~> 1.5"}
     ]
   end
 

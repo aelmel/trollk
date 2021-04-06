@@ -10,18 +10,19 @@ defmodule TrollkWeb.RoutesController do
     case Trollk.Roataway.Routes.get_details(route) do
       {:ok, details} ->
         osm = Map.get(details, :osm)
+
         case Details.get(osm) do
           {:ok, details} ->
             json(conn, details)
+
           {:error, error} ->
             conn
             |> put_status(500)
-            |> json( %{error: error})
+            |> json(%{error: error})
         end
 
       {:error, error} ->
         Logger.warn("Error received #{error}")
     end
   end
-
 end

@@ -28,6 +28,7 @@ defmodule Trollk.Mqtt.Handler do
       board_details = Map.delete(decoded, "rtu_id")
       TrollkWeb.Endpoint.broadcast("route:#{route}", "update", board_details)
     end)
+
     {:ok, state}
   end
 
