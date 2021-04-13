@@ -30,6 +30,7 @@ defmodule Trollk.Application do
       # {Trollk.Worker, arg}
       {Trollk.Roataway.Routes, []},
       {Trollk.Roataway.Vehicles, []},
+      {Cachex, :routes_details},
       mqtt_client
     ]
 

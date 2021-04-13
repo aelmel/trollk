@@ -5,6 +5,19 @@ defmodule Trollk.Routes.Details do
   require Logger
 
   def get(osm) do
+    case Cachex.get(:routes_details, osm) do
+      {:ok, nil} ->
+        details = get_details(osm)
+        Cachex.put(:routes_details, osm, details)
+        details
+      {:ok, details} ->
+        details
+      _ ->
+        get_details(osm)
+    end
+  end
+
+  defp get_details(osm) do
     try do
       segment = get_segment(osm)
       stations = get_station(osm)
