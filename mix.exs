@@ -5,7 +5,7 @@ defmodule Trollk.MixProject do
     [
       app: :trollk,
       version: "0.1.0",
-      elixir: "~> 1.7",
+      elixir: "~> 1.11",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -20,7 +20,7 @@ defmodule Trollk.MixProject do
   def application do
     [
       mod: {Trollk.Application, []},
-      extra_applications: [:logger, :runtime_tools, :httpoison]
+      extra_applications: [:logger, :runtime_tools, :httpoison, :cachex]
     ]
   end
 
@@ -43,7 +43,8 @@ defmodule Trollk.MixProject do
       {:tortoise, "~> 0.9.6"},
       {:csv, "~> 2.4"},
       {:httpoison, "~> 1.8"},
-      {:credo, "~> 1.5"}
+      {:credo, "~> 1.5"},
+      {:cachex, "~> 3.3"}
     ]
   end
 

@@ -16,6 +16,7 @@ config :trollk, TrollkWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :trollk, Trollk.Routes.Details, host: "https://overpass-api.de"
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

@@ -6,5 +6,6 @@ config :trollk, TrollkWeb.Endpoint,
   http: [port: 4002],
   server: false
 
+config :trollk, Trollk.Routes.Details, host: "https://overpass-api.de"
 # Print only warnings and errors during test
 config :logger, level: :warn
