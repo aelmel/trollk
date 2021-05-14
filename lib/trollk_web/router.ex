@@ -8,6 +8,7 @@ defmodule TrollkWeb.Router do
   scope "/api", TrollkWeb do
     pipe_through :api
 
+    get "/details/routes", RoutesController, :all
     get "/details/route/:route", RoutesController, :get_route_details
   end
 

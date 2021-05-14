@@ -6,6 +6,10 @@ defmodule TrollkWeb.RoutesController do
   alias Trollk.Routes.Details
   require Logger
 
+  def all(conn, _) do
+    json(conn, Trollk.Roataway.Routes.all())
+  end
+
   def get_route_details(conn, %{"route" => route}) do
     case Trollk.Roataway.Routes.get_details(route) do
       {:ok, details} ->
