@@ -5,13 +5,15 @@ defmodule Trollk.Routes.Details do
   require Logger
 
   def get(osm) do
-    case Cachex.get(:routes_details, osm) do
+    case Cachex.get(:routes_details, osm) |> IO.inspect() do
       {:ok, nil} ->
         details = get_details(osm)
         Cachex.put(:routes_details, osm, details)
         details
+
       {:ok, details} ->
         details
+
       _ ->
         get_details(osm)
     end
@@ -36,35 +38,9 @@ defmodule Trollk.Routes.Details do
   defp get_segment(osm) do
     host = Application.fetch_env!(:trollk, __MODULE__) |> Keyword.get(:host)
 
-    route_line =
-      http_call(
-        "#{host}/api/interpreter?data=[out:json];relation%20(#{osm})%3B%3E%3E%3Bway._%3Bout%20geom%3B"
-      )
-
-    coordinates = route_line
-    |> Map.get("elements", [])
-    |> Enum.reduce([], fn element, acc ->
-      temp =
-        element
-        |> Map.get("geometry", [])
-        |> Enum.reduce([], fn %{"lat" => lat, "lon" => lon}, acc -> acc ++ [[lat, lon]] end)
-
-      acc ++ temp
-    end)
-
-    geom = Map.new
-    |> Map.put("type", "LineString")
-    |> Map.put("coordinates", coordinates)
-
-    data = Map.new()
-    |> Map.put("properties",%{})
-    |> Map.put("geometry", geom)
-    |> Map.put("type", "Feature")
-
-
-    Map.new()
-    |> Map.put("type", "geojson")
-    |> Map.put("data", data)
+    http_call(
+      "#{host}/api/interpreter?data=[out:json];relation%20(#{osm})%3B%3E%3E%3Bway._%3Bout%20geom%3B"
+    )
   end
 
   defp get_station(osm) do
@@ -76,6 +52,8 @@ defmodule Trollk.Routes.Details do
   end
 
   defp http_call(url) do
+    Logger.debug("Call url #{url}")
+
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200} = response} ->
         Logger.debug("Got success")
