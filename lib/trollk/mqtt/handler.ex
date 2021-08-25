@@ -33,6 +33,7 @@ defmodule Trollk.Mqtt.Handler do
   end
 
   def handle_message(topic, payload, state) do
+    Logger.warn("Unhandled topic #{topic} with payload #{payload}")
     {:ok, state}
   end
 
